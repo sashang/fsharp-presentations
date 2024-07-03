@@ -148,9 +148,57 @@ let downloadAll2 =
 downloadAll2 |> AsyncSeq.toArrayAsync |> Async.RunSynchronously
 ----
 
+== Type Providers
+
+* Type providers are a way to generate types at compile time
+* Made integration with a vendors xml based interface file a breeze
+
+== Type Providers
+
+[source,xml,linenums]
+----
+<books>
+  <book id="1">
+    <title>Programming F#</title>
+    <author>Chris Smith</author>
+    <year>2010</year>
+  </book>
+  <book id="2">
+    <title>Expert F# 4.0</title>
+    <author>Don Syme</author>
+    <year>2015</year>
+  </book>
+</books>
+----
+
+== Type Providers
+
+[source,fs,linenums]
+----
+#r "nuget: FSharp.Data"
+
+open FSharp.Data
+
+type Books = XmlProvider<"books.xml">
+
+let data = Books.Load("books.xml")
+
+for book in data.Books do
+    printfn "%s" book.Title
+----
+
 == Domain Driven Design
 
 * Model the business domain with the type system
+* Make illegal states unrepresentable
+* Shared model for communication between BA and developers
+* Not class driven
+* Not database driven
+
+== Domain Driven Design
+
+* Separate the domain objects from the DTO objects
+* No nulls in F# but real world is messy
 
 == REST
 
@@ -162,21 +210,117 @@ downloadAll2 |> AsyncSeq.toArrayAsync |> Async.RunSynchronously
 * Strange looks
 * Corporate culture
 
+== Stinky bits
+
+* array syntax
+
+[source,fs]
+----
+let x = [1; 2; 3]
+let y = [|1; 2; 3|]
+
+let foo (x: int[]) = x
+foo x
+----
+
+
+== Stinky bits
+
+[source,fs]
+----
+let y = [|1; 2; 3|]
+y.[1]
+----
+
+== Stinky bits
+
+[source,fs]
+----
+let apply x y = x y
+
+let bar y =
+    apply id y
+----
+
+== Stinky bits
+
+[source,fs]
+----
+let apply x y = x y
+
+let bar y =
+    apply id
+----
+
 == How to use <your favourite language> in your organization
 
 * Make a case for it.
-* Don't do it as a playground project.
-    - Research the problem you're trying to solve. What are the key aspects of the domain?
-    - List how the language addresses common problems in other langauges
 * Fundamentally businesses don't care how you get the result.
 
-== How to use <your favourite language> in your organization
+[%auto-animate]
+== Insert <your favourite language>
 
-* A service that has to serve a high volume of requests. Response involves complex numerical calculations.
+.Language comparison matrix
+|===
+|                |Java | Go  | Javascript | C#  | Python | F#  |
+|Web Development |Yes  | Yes | Yes        | Yes | Yes    | Yes |
+|===
 
-[%step]
-* Web development (Go, Java, Javascript, C#, Python, F#)
-* Numerics (Go, Java, C#, F#, C++, Python)
-* Expressive Type System (Java, C#, F#, C++)
-* Your CTO loses a bet with an Oracle executive over a yacht race. (C#, F#)
-* Domain modelling (F#).
+[%auto-animate]
+== Insert <your favourite language>
+
+.Language comparison matrix
+|===
+|                |Java | Go  | Javascript | C#  | Python | F#  | C++
+|Web Development |Yes  | Yes | Yes        | Yes | Yes    | Yes |
+|Numerics        |Yes  | Yes | No         | Yes | No     | Yes | Yes
+|===
+
+[%auto-animate]
+== Insert <your favourite language>
+
+.Language comparison matrix
+|===
+|                |Java | Go  | C#  | F#
+|Web Development |Yes  | Yes | Yes | Yes
+|Numerics        |Yes  | Yes | Yes | Yes
+|Type System     |Yes  | No  | Yes | Yes
+|===
+
+[%auto-animate]
+== Insert <your favourite language>
+
+.Language comparison matrix
+|===
+|                |Java | C#  | F#
+|Web Development |Yes  | Yes | Yes
+|Numerics        |Yes  | Yes | Yes
+|Type System     |Yes  | Yes | Yes
+|CTO hates oracle|No   | Yes | Yes
+|===
+
+[%auto-animate]
+== Insert <your favourite language>
+
+.Language comparison matrix
+|===
+|                | C#  | F#
+|Web Development | Yes | Yes
+|Numerics        | Yes | Yes
+|Type System     | Yes | Yes
+|CTO hates oracle| Yes | Yes
+|Domain modelling| No | Yes
+|===
+
+[%auto-animate]
+== Insert F#
+
+.Language comparison matrix
+|===
+|                |  F#
+|Web Development |  Yes
+|Numerics        |  Yes
+|Type System     |  Yes
+|CTO hates oracle|  Yes
+|Domain modelling|  Yes
+|===

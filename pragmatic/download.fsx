@@ -3,7 +3,7 @@ open System.Net.Http
 
 let httpClient = new HttpClient()
 
-let donwloadAsync (url: string) =
+let downloadAsync (url: string) =
     async {
         let! response = httpClient.GetAsync(url) |> Async.AwaitTask
         let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
@@ -16,9 +16,20 @@ let urls = [
     "https://www.yahoo.com";
 ]
 
+let downloadAll =
+    async {
+        let result = [
+            for url in urls do
+                let content = downloadAsync url
+                content
+        ]
+        return! result |> Async.Parallel
+   }
+
+
 let result =
     urls
-    |> List.map (fun url -> donwloadAsync url)
+    |> List.map (fun url -> downloadAsync url)
     |> Async.Parallel
     |> Async.RunSynchronously
 

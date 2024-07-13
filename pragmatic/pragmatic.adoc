@@ -11,6 +11,13 @@ Real world use cases
 [.notes]
 --
 https://stackoverflow.com/questions/23680778/how-do-you-open-a-file-from-within-vim/23680800#23680800
+C/C++ programmer
+
+Liked Haskell at University.
+
+Worked for the same company as Magnus but in the AU office.
+
+Worked at the Ericsson office in Kista mostly with Powerpoint, doing boring jobs nobody wanted.
 --
 
 == Goal
@@ -75,7 +82,7 @@ int main() {
 
 == Async When?
 
-[%steps]
+[%step]
 * Go coroutines - 2012
 * JavaScript Promises - 2015
 * C# async/await - 2012
@@ -86,7 +93,7 @@ int main() {
 
 == Async
 
-[source, fs]
+[source, fsharp]
 ----
 let downloadAsync (url: string) =
     async {
@@ -96,41 +103,46 @@ let downloadAsync (url: string) =
     }
 ----
 
+[.notes]
+--
+Async is a computation expression. Monad.
+--
+
 == Async
-
-* Closures
-* Immutability
-
-== Async caveats
 
 [source, fsharp, linenums, highlight=3..5]
 ----
 let downloadAll =
-    let results = [
-        for url in urls do
-            let! result = donwloadAsync url <1>
-            result
-    ]
-    results
+    async {
+        let results = [
+            for url in urls do
+                let! result = donwloadAsync url <1>
+                result
+        ]
+        results
+    }
 ----
 
 <1> The use of let col in sequence expression is not permitted.
 
+[.notes]
+--
 Sequence expressions are also computation expressions
-
-image::coder_staring_at_a_screen_frustrated.png[]
+--
 
 == Async
 
-[source,fsharp,linenums, highlight=4]
+[source,fsharp,linenums, highlight=5]
 ----
 let downloadAll =
-    let results = [
-        for url in urls do
-            let result = downloadAsync url
-            result
-    ]
-    results |> Async.Parallel
+    async {
+        let result = [
+            for url in urls do
+                let content = downloadAsync url
+                content
+        ]
+        return! result |> Async.Parallel
+    }
 ----
 
 == Async
@@ -173,7 +185,7 @@ downloadAll2 |> AsyncSeq.toArrayAsync |> Async.RunSynchronously
 
 == Type Providers
 
-[source,fs,linenums]
+[source,fsharp,linenums]
 ----
 #r "nuget: FSharp.Data"
 
@@ -210,11 +222,14 @@ for book in data.Books do
 * Strange looks
 * Corporate culture
 
-== Stinky bits
+== No Language is Perfect
 
-* array syntax
+[.notes]
+--
+array syntax
+--
 
-[source,fs]
+[source,fsharp]
 ----
 let x = [1; 2; 3]
 let y = [|1; 2; 3|]
@@ -224,7 +239,7 @@ foo x
 ----
 
 
-== Stinky bits
+== No Language is Perfect
 
 [source,fs]
 ----
@@ -232,9 +247,9 @@ let y = [|1; 2; 3|]
 y.[1]
 ----
 
-== Stinky bits
+== No Language is Perfect
 
-[source,fs]
+[source,fsharp]
 ----
 let apply x y = x y
 
@@ -242,19 +257,9 @@ let bar y =
     apply id y
 ----
 
-== Stinky bits
-
-[source,fs]
-----
-let apply x y = x y
-
-let bar y =
-    apply id
-----
 
 == How to use <your favourite language> in your organization
 
-* Make a case for it.
 * Fundamentally businesses don't care how you get the result.
 
 [%auto-animate]
@@ -262,7 +267,7 @@ let bar y =
 
 .Language comparison matrix
 |===
-|                |Java | Go  | Javascript | C#  | Python | F#  |
+|                |Java | Go  | NodeJS     | C#  | Python | F#  |
 |Web Development |Yes  | Yes | Yes        | Yes | Yes    | Yes |
 |===
 
@@ -271,7 +276,7 @@ let bar y =
 
 .Language comparison matrix
 |===
-|                |Java | Go  | Javascript | C#  | Python | F#  | C++
+|                |Java | Go  | NodeJS     | C#  | Python | F#  | C++
 |Web Development |Yes  | Yes | Yes        | Yes | Yes    | Yes |
 |Numerics        |Yes  | Yes | No         | Yes | No     | Yes | Yes
 |===

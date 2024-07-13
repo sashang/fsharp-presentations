@@ -78,5 +78,5 @@ let result1 = validateOrder order1
 let result2 = validateOrder order2
 
 match result1 with
-| Ok order -> processOrder order1
-| Error order -> invalidOrder order1
+| Ok order -> makeCoffee order1
+| Error order -> moreMoney order1

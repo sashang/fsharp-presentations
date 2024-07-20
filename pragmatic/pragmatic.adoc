@@ -160,6 +160,21 @@ let downloadAll2 =
 downloadAll2 |> AsyncSeq.toArrayAsync |> Async.RunSynchronously
 ----
 
+== Task
+
+[source,fsharp,linenums]
+----
+let sleepTask (x: int) = task {
+    printfn "sleeping for %d seconds in task" x
+    do! Async.Sleep (x*1000)
+}
+----
+[.notes]
+--
+Immediate start.
+Don't support tail recursion.
+--
+
 == Type Providers
 
 * Type providers are a way to generate types at compile time

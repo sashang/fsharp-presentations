@@ -19,11 +19,10 @@ type Size =
     | Medium
     | Large
 
-type Coffee = {
-    Roast: Roast
-    Style: Style
-    Size: Size
-}
+type Coffee =
+    { Roast: Roast
+      Style: Style
+      Size: Size }
 
 type Order =
     { Coffee: Coffee
@@ -31,10 +30,9 @@ type Order =
       Payment: decimal }
 
 type ValidOrder =
-    private
-        { Coffee: Coffee
-          Name: string
-          Payment: decimal }
+    { Coffee: Coffee
+      Name: string
+      Payment: decimal }
 
 type InvalidOrder =
     { Coffee: Coffee
@@ -55,28 +53,41 @@ let calcPrice : CalcPriceFunc =
     fun coffee ->
         roastPriceTable[coffee.Roast] + sizePriceTable[coffee.Size] + stylePriceTable[coffee.Style]
 
-let validateOrder : ValidateOrderFunc =
+let validateOrder: ValidateOrderFunc =
     fun order ->
-        if order.Payment < calcPrice order.Coffee
-        then
-            Error({InvalidOrder.Coffee = order.Coffee; Name = order.Name; Payment = order.Payment})
+        if order.Payment < calcPrice order.Coffee then
+            Error(
+                { InvalidOrder.Coffee = order.Coffee
+                  Name = order.Name
+                  Payment = order.Payment }
+            )
         else
-            Ok({ValidOrder.Coffee = order.Coffee; Name = order.Name; Payment = order.Payment})
+            Ok(
+                { ValidOrder.Coffee = order.Coffee
+                  Name = order.Name
+                  Payment = order.Payment }
+            )
 
 let order1 =
-    {Order.Coffee = {Coffee.Roast = Dark; Style = LongBlack; Size = Small}
-     Payment = 5.0m
-     Name = "Sashan"}
+    { Order.Coffee =
+        { Coffee.Roast = Dark
+          Style = LongBlack
+          Size = Small }
+      Payment = 5.0m
+      Name = "Sashan" }
 
 let order2 =
-    {Order.Coffee = {Coffee.Roast = Dark; Style = LongBlack; Size = Small}
-     Payment = 1.0m
-     Name = "Peter"}
+    { Order.Coffee =
+        { Coffee.Roast = Dark
+          Style = LongBlack
+          Size = Small }
+      Payment = 1.0m
+      Name = "Peter" }
 
 
 let result1 = validateOrder order1
 let result2 = validateOrder order2
 
-match result1 with
-| Ok order -> makeCoffee order1
-| Error order -> moreMoney order1
+match result2 with
+| Ok order -> printfn "Making coffee"
+| Error order -> printfn "Give more money"

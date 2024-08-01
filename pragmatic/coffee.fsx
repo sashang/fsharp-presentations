@@ -89,5 +89,7 @@ let result1 = validateOrder order1
 let result2 = validateOrder order2
 
 match result2 with
-| Ok order -> printfn "Making coffee"
-| Error order -> printfn "Give more money"
+| Ok order -> 
+    printfn "Making coffee"
+| Error order ->
+    printfn "Give more money"

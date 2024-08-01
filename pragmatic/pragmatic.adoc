@@ -1,28 +1,36 @@
 :revealjs_theme: sky
 :imagesdir: ./images
 :source-highlighter: highlight.js
+:hardbreaks-option:
 = F#
 
 Real world use cases
 
-== Yep, that's me....
+== Who am I
 
+
+
+== How to open a file in Vim
+
+image:open-file-from-vim.png[Open a file from Vim]
+
+== Software career
+
+image:C_programmer_working.png[alt]
 
 [.notes]
 --
-https://stackoverflow.com/questions/23680778/how-do-you-open-a-file-from-within-vim/23680800#23680800
-C/C++ programmer
-
+C/C++ programmer, mainly working on network elements.
 Liked Haskell at University.
-
 Worked for the same company as Magnus but in the AU office.
-
 Worked at the Ericsson office in Kista mostly with Powerpoint, doing boring jobs nobody wanted.
 --
 
 == Goal
 
-* How to make your life 10% better
+* Why F#?
+* How to use it F#?
+* Happier.
 
 == Async
 

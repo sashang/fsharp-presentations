@@ -97,7 +97,6 @@ int main() {
 * Python async/await - 2015
 * Java CompletableFuture - 2015
 * F# async/await - 2007
-* Erlang was released in 1986
 
 == Async
 
@@ -124,7 +123,7 @@ let downloadAll =
     async {
         let results = [
             for url in urls do
-                let! result = donwloadAsync url <1>
+                let! result = downloadAsync url <1>
                 result
         ]
         results
@@ -280,13 +279,25 @@ let bar y =
     apply id y
 ----
 
+== No Language is Perfect
 
-== How to use <your favourite language> in your organization
+[source,fsharp]
+----
+someObj.Foo().Bar()
+----
+versus
+[source,fsharp]
+----
+someObj |> foo |> bar
+----
 
-* Fundamentally businesses don't care how you get the result.
+
+== So you want to use X
+
+* Businesses don't care how you get the result.
 
 [%auto-animate]
-== Insert <your favourite language>
+== Comparison
 
 .Language comparison matrix
 |===
@@ -295,7 +306,7 @@ let bar y =
 |===
 
 [%auto-animate]
-== Insert <your favourite language>
+== So you want to use X
 
 .Language comparison matrix
 |===
@@ -305,43 +316,42 @@ let bar y =
 |===
 
 [%auto-animate]
-== Insert <your favourite language>
+== So you want to use X
 
 .Language comparison matrix
 |===
 |                |Java | Go  | C#  | F#
-|Web Development |Yes  | Yes | Yes | Yes
 |Numerics        |Yes  | Yes | Yes | Yes
 |Type System     |Yes  | No  | Yes | Yes
 |===
 
 [%auto-animate]
-== Insert <your favourite language>
+== So you want to use X
 
 .Language comparison matrix
 |===
 |                |Java | C#  | F#
-|Web Development |Yes  | Yes | Yes
-|Numerics        |Yes  | Yes | Yes
 |Type System     |Yes  | Yes | Yes
 |CTO hates oracle|No   | Yes | Yes
 |===
 
 [%auto-animate]
-== Insert <your favourite language>
+== So you want to use X
 
 .Language comparison matrix
 |===
 |                | C#  | F#
-|Web Development | Yes | Yes
-|Numerics        | Yes | Yes
-|Type System     | Yes | Yes
 |CTO hates oracle| Yes | Yes
 |Domain modelling| No | Yes
 |===
 
+[.notes]
+--
+Our CTO lost a bet on yacht race
+--
+
 [%auto-animate]
-== Insert F#
+== So you want to use F#
 
 .Language comparison matrix
 |===
@@ -352,3 +362,8 @@ let bar y =
 |CTO hates oracle|  Yes
 |Domain modelling|  Yes
 |===
+
+[.notes]
+--
+Our CTO lost a bet on yacht race
+--

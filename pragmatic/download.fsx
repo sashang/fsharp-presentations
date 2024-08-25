@@ -10,9 +10,9 @@ let downloadAsync (url: string) =
     }
 
 let urls = [
-    "https://www.google.com";
-    "https://www.bing.com";
-    "https://www.yahoo.com";
+    "https://jsonplaceholder.typicode.com/posts/1"
+    "https://jsonplaceholder.typicode.com/posts/2"
+    "https://jsonplaceholder.typicode.com/posts/3"
 ]
 
 let downloadAll =

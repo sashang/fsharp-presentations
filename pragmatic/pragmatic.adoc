@@ -1,6 +1,5 @@
 = F# Down Under
-:revealjs_theme: black
-//:revealjs_customtheme: monospace.css
+:revealjs_theme: night
 :imagesdir: ./images
 :source-highlighter: highlight.js
 :hardbreaks-option:
@@ -9,11 +8,13 @@ image:cartoon_kangaroo.png[width=300,height=300]
 
 == Who am I
 
-[source, bash]
 ----
 $ whoami
 sashan
 ----
+
+https://www.linkedin.com/in/sashang/
+https://github.com/sashang/fsharp-presentations
 
 == How to open a file in Vim
 
@@ -44,7 +45,6 @@ Worked at the Ericsson office in Kista as a product owner.
 
 [.notes]
 --
-In the mid 2000s I was writing code like this.
 Inversion of control
 Shared state
 Thread blocked
@@ -438,3 +438,9 @@ Our CTO lost a bet on yacht race
 --
 Our CTO lost a bet on yacht race
 --
+
+== Community
+
+https://fsharpforfunandprofit.com/
+https://amplifyingfsharp.io/
+https://discord.gg/fsharp-196693847965696000

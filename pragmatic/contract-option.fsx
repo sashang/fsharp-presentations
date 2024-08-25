@@ -119,39 +119,3 @@ app.MapGet("/{name}", Func<string,_>(fun name ->
 app.UseSwagger()
 app.UseSwaggerUI()
 app.Run()
-
-open Swashbuckle.AspNetCore.SwaggerGen
-open Microsoft.OpenApi.Models
-
-type FSharpOptionSchemaFilter() =
-    interface ISchemaFilter with
-        member this.Apply(schema: OpenApiSchema, context: SchemaFilterContext) =
-            let isOption = fun (propType: Type) ->
-                propType.IsGenericType && propType.GetGenericTypeDefinition() = typedefof<option<_>>
-
-            for prop in context.Type.GetProperties() do
-                if isOption(prop.PropertyType) then
-                    let propName = prop.Name
-                    match schema.Properties.TryGetValue(propName) with
-                    | true, propSchema ->
-                        propSchema.Nullable <- true
-                    | _ -> ()
-
-builder.Services.AddSwaggerGen(
-    fun c ->
-        c.SchemaFilter<FSharpOptionSchemaFilter>()
-)
-let appWithSchemaFilter = builder.Build()
-appWithSchemaFilter.MapSwagger()
-appWithSchemaFilter.MapGet("/{name}", Func<string,_>(fun name ->
-    if name = "elon" then
-        dtoEmployee1
-    elif name = "jane" then
-        dtoEmployee2
-    else
-        {Contract.Employee.Type =  Contract.EmployeeType.ETUndefined; Accountant = None; Manager = None })
-    ) |> ignore
-
-appWithSchemaFilter.UseSwagger()
-appWithSchemaFilter.UseSwaggerUI()
-appWithSchemaFilter.Run()

@@ -1,14 +1,19 @@
-:revealjs_theme: sky
+= F# Down Under
+:revealjs_theme: black
+//:revealjs_customtheme: monospace.css
 :imagesdir: ./images
 :source-highlighter: highlight.js
 :hardbreaks-option:
-= F#
 
-Real world use cases
+image:cartoon_kangaroo.png[width=300,height=300]
 
 == Who am I
 
-
+[source, bash]
+----
+$ whoami
+sashan
+----
 
 == How to open a file in Vim
 
@@ -16,31 +21,33 @@ image:open-file-from-vim.png[Open a file from Vim]
 
 == Software career
 
-image:C_programmer_working.png[alt]
+image:kangaroo_coding.png[width==300,height=300]
 
 [.notes]
 --
 C/C++ programmer, mainly working on network elements.
 Liked Haskell at University.
 Worked for the same company as Magnus but in the AU office.
-Worked at the Ericsson office in Kista mostly with Powerpoint, doing boring jobs nobody wanted.
+Worked at the Ericsson office in Kista as a product owner.
 --
 
 == Goal
 
 * Why F#?
-* How to use it F#?
-* Happier.
+** Examples
 
 == Async
 
-* Back in the day I was writing code like this:
+* Why?
+** Inversion of control
+** State variables
 
 [.notes]
 --
 In the mid 2000s I was writing code like this.
 Inversion of control
 Shared state
+Thread blocked
 --
 
 [source, c]
@@ -53,7 +60,6 @@ typedef void (*CallbackFunction)(Downloads result);
 void perform_download(char*[] urls, CallbackFunction callback) {
     // Perform blocking IO operation
     Downloads result = download(urls)
-
     // Call the callback function with the result
     callback(result);
 }
@@ -64,39 +70,25 @@ void process_download_results(Downloads result) {
 
 int main() {
     perform_download(urls, process_download_results);
-
     return 0;
 }
 ----
 
 == Async
 
-* The question we want to answer is this
+* Benefits of synchronization without the drawbacks.
 
 [source, c]
 ----
 int main() {
-    perform_download(urls, process_download_results);
-    // how to handle the result here? <<1>>
+    results = perform_download(urls);
+    // how to handle the result here?
     .
     .
     .
-    .
-
 }
 ----
 
-1. How do we process the result of the download in the main function?
-
-== Async When?
-
-[%step]
-* Go coroutines - 2012
-* JavaScript Promises - 2015
-* C# async/await - 2012
-* Python async/await - 2015
-* Java CompletableFuture - 2015
-* F# async/await - 2007
 
 == Async
 
@@ -112,6 +104,7 @@ let downloadAsync (url: string) =
 
 [.notes]
 --
+Talk about the Why?
 Async is a computation expression. Monad.
 --
 
@@ -184,9 +177,14 @@ Don't support tail recursion.
 
 == Type Providers
 
-* Type providers are a way to generate types at compile time
-* Made integration with a vendors xml based interface file a breeze
+* Type providers infer a schema and generate types.
+** Useful for working with unstructured data (JSON, XML)
 
+[.notes]
+--
+Why? What is the problem it solves?
+Made integration with a vendor xml a breeze.
+--
 == Type Providers
 
 [source,xml,linenums]
@@ -231,18 +229,86 @@ for book in data.Books do
 
 == Domain Driven Design
 
-* Separate the domain objects from the DTO objects
+* Separate the domain types from the DTO (data transfer objects)
 * No nulls in F# but real world is messy
 
 == REST
 
-* No nulls
+* Interface with JSON.
+* Remove DUs
 
-== Hurdles
+[source,fsharp,linenums]
+----
+type Employee =
+    | Manager of Manager
+    | Accountant of Accountant
+----
 
-* Immutability
-* Strange looks
-* Corporate culture
+== REST
+
+[source,fsharp,linenums]
+----
+type EmployeeType =
+    | ETUndefined = 0
+    | ETManager = 1
+    | ETAccountant = 2
+
+type Employee  =
+    { Type: EmployeeType
+      Accountant: AccountantRec option
+      Manager: ManagerRec option}
+----
+
+== Swagger (OpenAPI)
+
+Problem with the option type.
+
+
+== Swagger (OpenAPI)
+
+Convert option to array
+
+[source,fsharp]
+----
+    type Employee  =
+        { Type: EmployeeType
+          Accountant: AccountantRec array
+          Manager: ManagerRec array}
+----
+
+== Swagger (OpenAPI)
+* Change the JSON serializer to match the Swagger schema
+* Implement the ISchemaFilter interface
+
+== GRPC
+
+Protobuf has `optional`
+
+[source,protobuf]
+----
+message Employee {
+  EmployeeType type = 1;
+  optional AccountantRec accountant = 2;
+  optional ManagerRec manager = 3;
+}
+----
+
+[.notes]
+--
+proto3 is optional by default
+--
+
+== GRPC
+[source,protobuf]
+----
+message Employee {
+  oneof employee_type {
+    Manager manager = 1;
+    Accountant accountant = 2;
+  }
+}
+----
+
 
 == No Language is Perfect
 
@@ -291,6 +357,11 @@ versus
 someObj |> foo |> bar
 ----
 
+== Hurdles
+
+* Immutability
+* Strange looks
+* Corporate culture
 
 == So you want to use X
 
@@ -310,9 +381,9 @@ someObj |> foo |> bar
 
 .Language comparison matrix
 |===
-|                |Java | Go  | NodeJS     | C#  | Python | F#  | C++
+|                |Java | Go  | NodeJS     | C#  | Python | F#  |
 |Web Development |Yes  | Yes | Yes        | Yes | Yes    | Yes |
-|Numerics        |Yes  | Yes | No         | Yes | No     | Yes | Yes
+|Numerics        |Yes  | Yes | No         | Yes | No     | Yes |
 |===
 
 [%auto-animate]
@@ -341,7 +412,7 @@ someObj |> foo |> bar
 .Language comparison matrix
 |===
 |                | C#  | F#
-|CTO hates oracle| Yes | Yes
+|CTO hates Oracle| Yes | Yes
 |Domain modelling| No | Yes
 |===
 

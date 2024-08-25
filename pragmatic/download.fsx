@@ -22,8 +22,8 @@ let downloadAll =
                 let content = downloadAsync url
                 content
         ]
-        let r = result |> Async.Parallel
-        return! r
+        let! r = result |> Async.Parallel
+        return r
    }
 
 

@@ -17,10 +17,6 @@ sashan
 
 image:open-file-from-vim.png[Open a file from Vim]
 
-== Software career
-
-image:kangaroo_coding.png[width=300,height=300]
-
 [.notes]
 --
 C/C++ programmer, mainly working on network elements.
@@ -47,6 +43,11 @@ Generational problem.
 ** Developer happiness.
 ** More productive.
 ** Fewer bugs.
+
+[.notes]
+--
+Fulfilment higher using F# than any other language.
+--
 
 == Async
 
